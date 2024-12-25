@@ -48,10 +48,17 @@
 
 <main>
   <h1>
-    Zähle bis <select bind:value={level}>
-      {#each Array.from({ length: 8 }, (_, i) => (i + 2) * (i + 2)) as i}
-        <option value={i}>{i}</option>
-      {/each}
+    Zähle bis
+    <select bind:value={level}>
+      <option value={4}>4</option>
+      <option value={9}>9</option>
+      <option value={16}>16</option>
+      <option value={25}>25</option>
+      <option value={36}>36</option>
+      <option value={49}>49</option>
+      <option value={64}>64</option>
+      <option value={81}>81</option>
+      <option value={100}>100</option>
     </select>
   </h1>
 
