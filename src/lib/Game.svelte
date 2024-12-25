@@ -51,7 +51,6 @@
 </script>
 
 <section
-  data-level={level}
   bind:this={section}
   style="--columns: {columns};"
 >
@@ -66,15 +65,40 @@
     gap: 0.5em;
     min-width: 30vw;
     grid-template-columns: repeat(var(--columns), 1fr);
+  }
 
-    button {
-      aspect-ratio: 1;
-      font-size: 2.5em;
-      border: none;
-      border-radius: 0.5em;
-      text-shadow: 0 0 2px black;
-      box-shadow: inset 0 0 1em rgba(0, 0, 0, 0.5);
-    }
+  button {
+    aspect-ratio: 1;
+    font-size: 2.5em;
+    border: none;
+    border-radius: 0.5em;
+    text-shadow: 0 0 2px black;
+    box-shadow: inset 0 0 1em rgba(0, 0, 0, 0.5);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  button:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.3),
+      rgba(255, 255, 255, 0)
+    );
+    border-radius: 0.5em;
+    pointer-events: none;
+  }
+
+  button:hover {
+    background: rgba(255, 255, 255, 0.2);
   }
 
   button:disabled {
