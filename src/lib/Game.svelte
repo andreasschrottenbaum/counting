@@ -41,7 +41,7 @@
 
     await tick()
 
-    section.querySelectorAll('button').forEach((button) => {
+    section?.querySelectorAll('button').forEach((button) => {
       button.disabled = false
       button.style.backgroundColor = `hsl(${parseInt(button.innerText) * steps}, 100%, 50%)`
     })
@@ -78,7 +78,6 @@
     backdrop-filter: blur(10px);
     color: white;
     position: relative;
-    overflow: hidden;
   }
 
   button:before {
