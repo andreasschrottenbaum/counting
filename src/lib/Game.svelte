@@ -72,7 +72,7 @@
     font-size: 2.5em;
     border: none;
     border-radius: 0.5em;
-    text-shadow: 0 0 2px black;
+    text-shadow: 0 0 5px black; /* Add a stronger text shadow */
     box-shadow: inset 0 0 1em rgba(0, 0, 0, 0.5);
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
