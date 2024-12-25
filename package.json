@@ -2,6 +2,7 @@
   "name": "counting",
   "version": "1.0.0",
   "type": "module",
+  "homepage": "https://andreasschrottenbaum.github.io/counting/",
   "scripts": {
     "dev": "vite",
     "start": "vite --host",
