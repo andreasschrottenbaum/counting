@@ -9,9 +9,12 @@
   let points = 0
   let columns = $state(1)
 
+  let startTime = 0
+
   function setNext(event: Event) {
     const button = event.target as HTMLButtonElement
     const nextNumber = parseInt(button.textContent || '0')
+    const endTime = Date.now()
 
     if (nextNumber === currentNumber) {
       button.disabled = true
@@ -19,8 +22,14 @@
 
       points += nextNumber
 
+      if (nextNumber === 1) {
+        startTime = Date.now()
+      }
+
       if (nextNumber === level) {
-        win(points)
+        const duration = (endTime - startTime) / 1000
+
+        win(points, duration)
       }
     } else {
       lose(points)

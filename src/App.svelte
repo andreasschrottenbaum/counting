@@ -3,31 +3,33 @@
   import Game from './lib/Game.svelte'
 
   const storedLevel = localStorage.getItem('level')
-  const initialLevel = storedLevel ? parseInt(storedLevel) : 9
+  const initialLevel = storedLevel ? parseInt(storedLevel) : 4
 
   let level = $state(initialLevel)
   let game = $state<Game>()
   let endcard = $state<HTMLElement>()
 
-  let endpoints = $state(0)
   let gameWon = $state(false)
+  let endPoints = $state(0)
+  let endDuration = $state(0)
 
-  function win(points: number) {
-    endpoints = points
+  function win(points: number, duration: number) {
+    endPoints = points
     gameWon = true
+    endDuration = duration
 
     endcard?.classList.remove('hidden')
   }
 
   function lose(points: number) {
-    endpoints = points
+    endPoints = points
     gameWon = false
 
     endcard?.classList.remove('hidden')
   }
 
   function reset() {
-    endpoints = 0
+    endPoints = 0
     endcard?.classList.add('hidden')
   }
 
@@ -77,11 +79,15 @@
     <div class="inner">
       <h3>
         {#if gameWon}
-          Du hast Gewonnen!
+          Du hast Gewonnen! 🎉
         {:else}
           Du hast leider Verloren
         {/if}
       </h3>
+
+      {#if endDuration}
+        <small>in {endDuration.toFixed(2)} Sekunden</small>
+      {/if}
 
       <p class="endstate">
         {#if gameWon}
@@ -91,7 +97,7 @@
         {/if}
       </p>
 
-      <p>Deine Punkte: <strong>{endpoints}</strong></p>
+      <p>Deine Punkte: <strong>{endPoints}</strong></p>
 
       {#if gameWon}
         <button
