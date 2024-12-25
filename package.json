@@ -1,7 +1,6 @@
 {
-  "name": "noah-test",
-  "private": true,
-  "version": "0.0.0",
+  "name": "counting",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
