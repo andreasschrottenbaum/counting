@@ -91,14 +91,16 @@
         {/if}
       </p>
 
-      <p>Deine Punkte: {endpoints}</p>
+      <p>Deine Punkte: <strong>{endpoints}</strong></p>
 
-      <button onclick={game.restart}>Erneut Spielen</button>
       {#if gameWon}
-        <button onclick={() => (level = Math.pow(Math.sqrt(level) + 1, 2))}
+        <button
+          class="gameWon"
+          onclick={() => (level = Math.pow(Math.sqrt(level) + 1, 2))}
           >Nächstes Level</button
         >
       {/if}
+      <button onclick={game.restart}>Erneut Spielen</button>
     </div>
   </div>
 </main>
@@ -126,6 +128,7 @@
     display: grid;
     gap: 1rem;
     place-content: center;
+    text-align: center;
   }
 
   .endcard.hidden {
@@ -138,12 +141,28 @@
     border-radius: 0.5rem;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
     color: #333;
-    aspect-ratio: 1;
+  }
+
+  .endcard h3 {
+    margin: 0;
+  }
+
+  .endcard button {
+    display: block;
+    margin: 0 auto 1em;
+    font-size: 1em;
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
   }
 
   .endstate {
     font-size: 3em;
-    text-align: center;
     margin: 0;
+  }
+
+  .gameWon {
+    background-color: #4caf50;
   }
 </style>

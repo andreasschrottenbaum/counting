@@ -78,6 +78,7 @@
     backdrop-filter: blur(10px);
     color: white;
     position: relative;
+    overflow: hidden;
   }
 
   button:before {
