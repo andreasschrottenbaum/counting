@@ -79,7 +79,7 @@
     <div class="inner">
       <h3>
         {#if gameWon}
-          Du hast Gewonnen! 🎉
+          Du hast Gewonnen!
         {:else}
           Du hast leider Verloren
         {/if}
