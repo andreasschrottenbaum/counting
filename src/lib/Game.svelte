@@ -78,6 +78,6 @@
   }
 
   button:disabled {
-    opacity: 0.3;
+    opacity: 0.35;
   }
 </style>
