@@ -94,6 +94,11 @@
       <p>Deine Punkte: {endpoints}</p>
 
       <button onclick={game.restart}>Erneut Spielen</button>
+      {#if gameWon}
+        <button onclick={() => (level = Math.pow(Math.sqrt(level) + 1, 2))}
+          >Nächstes Level</button
+        >
+      {/if}
     </div>
   </div>
 </main>
@@ -109,7 +114,7 @@
     font-size: 1em;
     font-family: inherit;
     font-weight: bold;
-    padding: 0.5em;
+    padding: 0 0.5em;
   }
 
   .endcard {
