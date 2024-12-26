@@ -38,14 +38,18 @@
     endcard?.classList.add('hidden')
   }
 
-  $effect(() => {
-    level
-
-    localStorage.setItem('currentLevel', level.toString())
+  function progress() {
+    level = Math.pow(Math.sqrt(level) + 1, 2)
 
     if (level > highestLevel) {
       localStorage.setItem('highestLevel', level.toString())
     }
+  }
+
+  $effect(() => {
+    level
+
+    localStorage.setItem('currentLevel', level.toString())
 
     return () => {
       game?.restart()
@@ -135,8 +139,7 @@
       {#if gameWon}
         <button
           class="gameWon"
-          onclick={() => (level = Math.pow(Math.sqrt(level) + 1, 2))}
-          >Nächstes Level</button
+          onclick={progress}>Nächstes Level</button
         >
       {/if}
       <button onclick={game.restart}>Erneut Spielen</button>
