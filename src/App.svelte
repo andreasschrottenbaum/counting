@@ -22,7 +22,7 @@
   let endDuration = $state(0)
 
   function win(points: number, duration: number) {
-    endPoints = points
+    endPoints = points + parseInt(localStorage.getItem('currentPoints') || '0')
     gameWon = true
     endDuration = duration
 
@@ -30,7 +30,7 @@
   }
 
   function lose(points: number) {
-    endPoints = points
+    endPoints = points + parseInt(localStorage.getItem('currentPoints') || '0')
     gameWon = false
 
     endcard?.classList.remove('hidden')
@@ -43,6 +43,12 @@
 
   function progress() {
     level = Math.pow(Math.sqrt(level) + 1, 2)
+
+    const currentPoints = parseInt(localStorage.getItem('currentPoints') || '0')
+    localStorage.setItem(
+      'currentPoints',
+      (currentPoints + endPoints).toString()
+    )
 
     if (level > highestLevel) {
       localStorage.setItem('highestLevel', level.toString())
@@ -60,6 +66,8 @@
   })
 
   onMount(() => {
+    localStorage.setItem('currentPoints', '0')
+
     game?.restart()
   })
 </script>
