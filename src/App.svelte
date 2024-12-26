@@ -4,7 +4,6 @@
   // @TODO: fluid layout
   // @TODO: add feedback sounds
   // @TODO: points/session
-  // @TODO: highlight current number
 
   import { onMount } from 'svelte'
   import Game from './lib/Game.svelte'
