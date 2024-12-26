@@ -64,6 +64,8 @@
       button.style.backgroundColor = `hsl(${parseInt(button.innerText) * steps}, 100%, 50%)`
     })
 
+    section.querySelector('button.current')?.classList.remove('current')
+
     reset()
   }
 </script>
