@@ -16,6 +16,15 @@
     const nextNumber = parseInt(button.textContent || '0')
     const endTime = Date.now()
 
+    const currentNumberBtns = document.querySelectorAll(
+      `button.current`
+    ) as NodeListOf<HTMLButtonElement>
+    currentNumberBtns.forEach((button) => {
+      button.classList.remove('current')
+    })
+
+    button.classList.add('current')
+
     if (nextNumber === currentNumber) {
       button.disabled = true
       currentNumber++
@@ -87,7 +96,6 @@
     backdrop-filter: blur(10px);
     color: white;
     position: relative;
-    overflow: hidden;
   }
 
   button:before {
@@ -112,5 +120,10 @@
 
   button:disabled {
     opacity: 0.35;
+  }
+
+  :global(button.current) {
+    box-shadow: 0 0 5px #888;
+    color: yellow;
   }
 </style>
