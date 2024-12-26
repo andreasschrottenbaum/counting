@@ -2,8 +2,10 @@
   import { onMount } from 'svelte'
   import Game from './lib/Game.svelte'
 
-  const storedLevel = localStorage.getItem('level')
+  const storedLevel = localStorage.getItem('currentLevel')
   const initialLevel = storedLevel ? parseInt(storedLevel) : 4
+  const storedHighestLevel = localStorage.getItem('highestLevel')
+  const highestLevel = storedHighestLevel ? parseInt(storedHighestLevel) : 4
 
   let level = $state(initialLevel)
   let game = $state<Game>()
@@ -36,7 +38,11 @@
   $effect(() => {
     level
 
-    localStorage.setItem('level', level.toString())
+    localStorage.setItem('currentLevel', level.toString())
+
+    if (level > highestLevel) {
+      localStorage.setItem('highestLevel', level.toString())
+    }
 
     return () => {
       game?.restart()
@@ -53,14 +59,38 @@
     Zähle bis
     <select bind:value={level}>
       <option value={4}>4</option>
-      <option value={9}>9</option>
-      <option value={16}>16</option>
-      <option value={25}>25</option>
-      <option value={36}>36</option>
-      <option value={49}>49</option>
-      <option value={64}>64</option>
-      <option value={81}>81</option>
-      <option value={100}>100</option>
+      <option
+        disabled={highestLevel < 9}
+        value={9}>9</option
+      >
+      <option
+        disabled={highestLevel < 16}
+        value={16}>16</option
+      >
+      <option
+        disabled={highestLevel < 25}
+        value={25}>25</option
+      >
+      <option
+        disabled={highestLevel < 36}
+        value={36}>36</option
+      >
+      <option
+        disabled={highestLevel < 49}
+        value={49}>49</option
+      >
+      <option
+        disabled={highestLevel < 64}
+        value={64}>64</option
+      >
+      <option
+        disabled={highestLevel < 81}
+        value={81}>81</option
+      >
+      <option
+        disabled={highestLevel < 100}
+        value={100}>100</option
+      >
     </select>
   </h1>
 
