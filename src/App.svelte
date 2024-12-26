@@ -153,7 +153,7 @@
           onclick={progress}>Nächstes Level</button
         >
       {/if}
-      <button onclick={game.restart}>Erneut Spielen</button>
+      <button onclick={() => game?.restart(true)}>Erneut Spielen</button>
     </div>
   </div>
 </main>

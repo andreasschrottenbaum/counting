@@ -45,7 +45,7 @@
     }
   }
 
-  export async function restart() {
+  export async function restart(resetPoints = false) {
     numbers = [...Array(level).keys()]
       .map((value) => ({ value, sort: Math.random() }))
       .sort((a, b) => a.sort - b.sort)
@@ -65,6 +65,10 @@
     })
 
     section.querySelector('button.current')?.classList.remove('current')
+
+    if (resetPoints) {
+      localStorage.setItem('currentPoints', '0')
+    }
 
     reset()
   }
