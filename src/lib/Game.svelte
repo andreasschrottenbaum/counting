@@ -124,6 +124,6 @@
 
   :global(button.current) {
     box-shadow: 0 0 5px #888;
-    color: yellow;
+    color: black;
   }
 </style>
