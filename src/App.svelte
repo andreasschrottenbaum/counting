@@ -1,4 +1,7 @@
 <script lang="ts">
+  // @TODO: add background music(?)
+  // @TODO: add shapes to the game ()
+
   import { onMount } from 'svelte'
   import Game from './lib/Game.svelte'
 
