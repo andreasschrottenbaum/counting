@@ -156,6 +156,7 @@
     font-family: inherit;
     font-weight: bold;
     padding: 0 0.5em;
+    border-radius: 0.5em;
   }
 
   .endcard {
