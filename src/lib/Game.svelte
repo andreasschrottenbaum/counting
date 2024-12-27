@@ -74,7 +74,10 @@
 
     section?.querySelectorAll('button').forEach((button) => {
       button.disabled = false
-      button.style.backgroundColor = `hsl(${parseInt(button.innerText) * steps}, 100%, 50%)`
+      button.style.setProperty(
+        '--bgColor',
+        `hsl(${parseInt(button.innerText) * steps}, 100%, 50%)`
+      )
     })
 
     section?.querySelector('button.current')?.classList.remove('current')
@@ -100,8 +103,11 @@
   style="--columns: {columns};"
   data-columns={columns}
 >
-  {#each numbers as number}
-    <button onclick={setNext}>{number + 1}</button>
+  {#each numbers as number, i}
+    <button
+      onclick={setNext}
+      class="shape-{number % 10}">{number + 1}</button
+    >
   {/each}
 </section>
 
@@ -130,30 +136,24 @@
     aspect-ratio: 1;
     font-size: clamp(1.5em, 4vw, 4.5em);
     border: none;
-    border-radius: 0.5em;
     text-shadow: 0 0 5px black;
-    box-shadow: inset 0 0 1em rgba(0, 0, 0, 0.5);
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
     color: white;
     position: relative;
     width: 100%;
+    background: transparent;
   }
 
-  button:before {
+  button::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.3),
-      rgba(255, 255, 255, 0)
-    );
-    border-radius: 0.5em;
-    pointer-events: none;
+    background: var(--bgColor);
+    backdrop-filter: blur(10px);
+    z-index: -1;
+    transition: background 0.2s;
   }
 
-  button:hover {
+  button:hover::before {
     background: rgba(255, 255, 255, 0.2);
   }
 
@@ -169,5 +169,83 @@
   :global(button.current) {
     box-shadow: 0 0 5px #888;
     color: black;
+  }
+
+  /* Shape 0: Circle */
+  button.shape-0::before {
+    border-radius: 50%;
+  }
+
+  /* Shape 1: Square (default) */
+  button.shape-1::before {
+    border-radius: 0;
+  }
+
+  /* Shape 2: Triangle */
+  button.shape-2::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 15L85 85H15L50 15Z'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 15L85 85H15L50 15Z'/%3E%3C/svg%3E");
+  }
+
+  /* Shape 3: Star */
+  button.shape-3::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 0L61 35H97L68 57L79 91L50 70L21 91L32 57L3 35H39L50 0Z'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 0L61 35H97L68 57L79 91L50 70L21 91L32 57L3 35H39L50 0Z'/%3E%3C/svg%3E");
+  }
+
+  /* Shape 4: Pentagon */
+  button.shape-4::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 0L90 35L75 90H25L10 35L50 0Z'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 0L90 35L75 90H25L10 35L50 0Z'/%3E%3C/svg%3E");
+  }
+
+  /* Shape 5: Hexagon */
+  button.shape-5::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M25 0L75 0L100 50L75 100L25 100L0 50L25 0Z'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M25 0L75 0L100 50L75 100L25 100L0 50L25 0Z'/%3E%3C/svg%3E");
+  }
+
+  /* Shape 6: Heart */
+  button.shape-6::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 100L15 65C-5 45-5 10 15 5C35 0 50 15 50 15C50 15 65 0 85 5C105 10 105 45 85 65L50 100Z'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 100L15 65C-5 45-5 10 15 5C35 0 50 15 50 15C50 15 65 0 85 5C105 10 105 45 85 65L50 100Z'/%3E%3C/svg%3E");
+  }
+
+  /* Shape 7: Diamond */
+  button.shape-7::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 0L100 50L50 100L0 50L50 0Z'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 0L100 50L50 100L0 50L50 0Z'/%3E%3C/svg%3E");
+  }
+
+  /* Shape 8: Cross */
+  button.shape-8::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M35 0H65V35H100V65H65V100H35V65H0V35H35V0Z'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M35 0H65V35H100V65H65V100H35V65H0V35H35V0Z'/%3E%3C/svg%3E");
+  }
+
+  /* Shape 9: Octagon */
+  button.shape-9::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M29.3 0H70.7L100 29.3V70.7L70.7 100H29.3L0 70.7V29.3L29.3 0Z'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M29.3 0H70.7L100 29.3V70.7L70.7 100H29.3L0 70.7V29.3L29.3 0Z'/%3E%3C/svg%3E");
+  }
+
+  /* Common mask properties */
+  [class^='shape-'] {
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+  }
+
+  /* Add more shapes using ::before pseudo-element */
+  button[class^='shape-']::before {
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
   }
 </style>
