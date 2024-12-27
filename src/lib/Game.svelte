@@ -98,6 +98,7 @@
 <section
   bind:this={section}
   style="--columns: {columns};"
+  data-columns={columns}
 >
   {#each numbers as number}
     <button onclick={setNext}>{number + 1}</button>
@@ -113,9 +114,21 @@
     grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
   }
 
+  [data-columns='2'] button {
+    font-size: clamp(1.5em, 20vw, 5.5em);
+  }
+
+  [data-columns='3'] button {
+    font-size: clamp(1.5em, 13vw, 5.5em);
+  }
+
+  [data-columns='4'] button {
+    font-size: clamp(1.5em, 10vw, 5.5em);
+  }
+
   button {
     aspect-ratio: 1;
-    font-size: clamp(1.5em, 7vw, 4.5em);
+    font-size: clamp(1.5em, 4vw, 4.5em);
     border: none;
     border-radius: 0.5em;
     text-shadow: 0 0 5px black;
@@ -144,8 +157,13 @@
     background: rgba(255, 255, 255, 0.2);
   }
 
-  button:disabled {
+  :global(button:disabled) {
     opacity: 0.35;
+    color: #888;
+
+    &.current {
+      color: black;
+    }
   }
 
   :global(button.current) {
