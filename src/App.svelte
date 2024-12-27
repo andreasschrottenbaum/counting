@@ -1,7 +1,7 @@
 <script lang="ts">
   // @TODO: add background music(?)
-  // @TODO: add shapes to the game (⭐ ❤️ 🏆 🎈 😊 🐱 🧩 🍬)
   // @TODO: add feedback sounds
+  // @TODO: add "pro" mode without colors
 
   import { onMount } from 'svelte'
   import Game from './lib/Game.svelte'
@@ -169,6 +169,7 @@
     font-weight: bold;
     padding: 0 0.5em;
     border-radius: 0.5em;
+    color: light-dark(#333, #fff);
   }
 
   .endcard {
@@ -207,6 +208,7 @@
     border: none;
     border-radius: 0.5rem;
     cursor: pointer;
+    color: light-dark(#333, #fff);
   }
 
   .endstate {
