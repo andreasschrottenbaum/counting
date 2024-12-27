@@ -131,7 +131,7 @@
     font-size: clamp(1.5em, 4vw, 4.5em);
     border: none;
     border-radius: 0.5em;
-    text-shadow: 0 0 5px black;
+    text-shadow: 0 0 3px black;
     box-shadow: inset 0 0 1em rgba(0, 0, 0, 0.5);
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);

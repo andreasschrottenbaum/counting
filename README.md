@@ -8,4 +8,10 @@
 npm i
 ```
 
+# Run the dev server
+
+```shell
+npm start
+```
+
 ### Just play the game. It's not that complex
