@@ -96,7 +96,7 @@
     font-size: 2.5em;
     border: none;
     border-radius: 0.5em;
-    text-shadow: 0 0 5px black; /* Add a stronger text shadow */
+    text-shadow: 0 0 5px black;
     box-shadow: inset 0 0 1em rgba(0, 0, 0, 0.5);
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
@@ -107,10 +107,7 @@
   button:before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background: linear-gradient(
       145deg,
       rgba(255, 255, 255, 0.3),
