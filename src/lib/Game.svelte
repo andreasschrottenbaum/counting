@@ -115,7 +115,7 @@
 
   button {
     aspect-ratio: 1;
-    font-size: clamp(1.5em, 4vw, 2.5em);
+    font-size: clamp(1.5em, 14vw, 4.5em);
     border: none;
     border-radius: 0.5em;
     text-shadow: 0 0 5px black;

@@ -1,7 +1,6 @@
 <script lang="ts">
   // @TODO: add background music(?)
   // @TODO: add shapes to the game (⭐ ❤️ 🏆 🎈 😊 🐱 🧩 🍬)
-  // @TODO: fluid layout
   // @TODO: add feedback sounds
 
   import { onMount } from 'svelte'
