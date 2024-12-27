@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { tick } from 'svelte'
+  import { tick, onMount, onDestroy } from 'svelte'
 
   let { level, win, lose, reset } = $props()
 
@@ -10,6 +10,7 @@
   let columns = $state(1)
 
   let startTime = 0
+  let resizeTimer: number
 
   function setNext(event: Event) {
     const button = event.target as HTMLButtonElement
@@ -45,6 +46,16 @@
     }
   }
 
+  function handleResize() {
+    clearTimeout(resizeTimer)
+    resizeTimer = setTimeout(() => {
+      columns = Math.min(
+        Math.ceil(Math.sqrt(numbers.length)),
+        Math.floor(window.innerWidth / 60)
+      )
+    }, 100)
+  }
+
   export async function restart(resetPoints = false) {
     numbers = [...Array(level).keys()]
       .map((value) => ({ value, sort: Math.random() }))
@@ -53,8 +64,10 @@
 
     currentNumber = 1
     points = 0
-    columns = Math.ceil(Math.sqrt(numbers.length))
-
+    columns = Math.min(
+      Math.ceil(Math.sqrt(numbers.length)),
+      Math.floor(window.innerWidth / 60)
+    )
     const steps = 360 / level
 
     await tick()
@@ -64,7 +77,7 @@
       button.style.backgroundColor = `hsl(${parseInt(button.innerText) * steps}, 100%, 50%)`
     })
 
-    section.querySelector('button.current')?.classList.remove('current')
+    section?.querySelector('button.current')?.classList.remove('current')
 
     if (resetPoints) {
       localStorage.setItem('currentPoints', '0')
@@ -72,6 +85,14 @@
 
     reset()
   }
+
+  onMount(() => {
+    window.addEventListener('resize', handleResize)
+  })
+
+  onDestroy(() => {
+    window.removeEventListener('resize', handleResize)
+  })
 </script>
 
 <section
@@ -87,13 +108,14 @@
   section {
     display: grid;
     gap: 0.5em;
-    min-width: 30vw;
-    grid-template-columns: repeat(var(--columns), 1fr);
+    width: min(90vw, 800px);
+    margin: 0 auto;
+    grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
   }
 
   button {
     aspect-ratio: 1;
-    font-size: 2.5em;
+    font-size: clamp(1.5em, 4vw, 2.5em);
     border: none;
     border-radius: 0.5em;
     text-shadow: 0 0 5px black;
@@ -102,6 +124,7 @@
     backdrop-filter: blur(10px);
     color: white;
     position: relative;
+    width: 100%;
   }
 
   button:before {
