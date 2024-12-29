@@ -1,173 +1,160 @@
 <script lang="ts">
-  import { tick, onMount, onDestroy } from 'svelte'
+	import { tick, onMount, onDestroy } from 'svelte';
 
-  let { level, win, lose, reset } = $props()
+	let { level, win, lose, reset } = $props();
 
-  let numbers = $state<any[]>([])
-  let currentNumber = 1
-  let section: HTMLElement
-  let points = 0
-  let columns = $state(1)
+	let numbers = $state<any[]>([]);
+	let currentNumber = 1;
+	let section: HTMLElement;
+	let points = 0;
+	let columns = $state(1);
 
-  let startTime = 0
-  let resizeTimer: number
+	let startTime = 0;
+	let resizeTimer: number;
 
-  function setNext(event: Event) {
-    const button = event.target as HTMLButtonElement
-    const nextNumber = parseInt(button.textContent || '0')
-    const endTime = Date.now()
+	function setNext(event: Event) {
+		const button = event.target as HTMLButtonElement;
+		const nextNumber = parseInt(button.textContent || '0');
+		const endTime = Date.now();
 
-    const currentNumberBtns = document.querySelectorAll(
-      `button.current`
-    ) as NodeListOf<HTMLButtonElement>
-    currentNumberBtns.forEach((button) => {
-      button.classList.remove('current')
-    })
+		const currentNumberBtns = document.querySelectorAll(
+			`button.current`
+		) as NodeListOf<HTMLButtonElement>;
+		currentNumberBtns.forEach((button) => {
+			button.classList.remove('current');
+		});
 
-    button.classList.add('current')
+		button.classList.add('current');
 
-    if (nextNumber === currentNumber) {
-      button.disabled = true
-      currentNumber++
+		if (nextNumber === currentNumber) {
+			button.disabled = true;
+			currentNumber++;
 
-      points += nextNumber
+			points += nextNumber;
 
-      if (nextNumber === 1) {
-        startTime = Date.now()
-      }
+			if (nextNumber === 1) {
+				startTime = Date.now();
+			}
 
-      if (nextNumber === level) {
-        const duration = (endTime - startTime) / 1000
+			if (nextNumber === level) {
+				const duration = (endTime - startTime) / 1000;
 
-        win(points, duration)
-      }
-    } else {
-      lose(points)
-    }
-  }
+				win(points, duration);
+			}
+		} else {
+			lose(points);
+		}
+	}
 
-  function handleResize() {
-    clearTimeout(resizeTimer)
-    resizeTimer = setTimeout(() => {
-      columns = Math.min(
-        Math.ceil(Math.sqrt(numbers.length)),
-        Math.floor(window.innerWidth / 60)
-      )
-    }, 100)
-  }
+	function handleResize() {
+		clearTimeout(resizeTimer);
+		resizeTimer = setTimeout(() => {
+			columns = Math.min(Math.ceil(Math.sqrt(numbers.length)), Math.floor(window.innerWidth / 60));
+		}, 100);
+	}
 
-  export async function restart(resetPoints = false) {
-    numbers = [...Array(level).keys()]
-      .map((value) => ({ value, sort: Math.random() }))
-      .sort((a, b) => a.sort - b.sort)
-      .map(({ value }) => value)
+	export async function restart(resetPoints = false) {
+		numbers = [...Array(level).keys()]
+			.map((value) => ({ value, sort: Math.random() }))
+			.sort((a, b) => a.sort - b.sort)
+			.map(({ value }) => value);
 
-    currentNumber = 1
-    points = 0
-    columns = Math.min(
-      Math.ceil(Math.sqrt(numbers.length)),
-      Math.floor(window.innerWidth / 60)
-    )
-    const steps = 360 / level
+		currentNumber = 1;
+		points = 0;
+		columns = Math.min(Math.ceil(Math.sqrt(numbers.length)), Math.floor(window.innerWidth / 60));
+		const steps = 360 / level;
 
-    await tick()
+		await tick();
 
-    section?.querySelectorAll('button').forEach((button) => {
-      button.disabled = false
-      button.style.backgroundColor = `hsl(${parseInt(button.innerText) * steps}, 100%, 50%)`
-    })
+		section?.querySelectorAll('button').forEach((button) => {
+			button.disabled = false;
+			button.style.backgroundColor = `hsl(${parseInt(button.innerText) * steps}, 100%, 50%)`;
+		});
 
-    section?.querySelector('button.current')?.classList.remove('current')
+		section?.querySelector('button.current')?.classList.remove('current');
 
-    if (resetPoints) {
-      localStorage.setItem('currentPoints', '0')
-    }
+		if (resetPoints) {
+			localStorage.setItem('currentPoints', '0');
+		}
 
-    reset()
-  }
+		reset();
+	}
 
-  onMount(() => {
-    window.addEventListener('resize', handleResize)
-  })
+	onMount(() => {
+		window.addEventListener('resize', handleResize);
+	});
 
-  onDestroy(() => {
-    window.removeEventListener('resize', handleResize)
-  })
+	onDestroy(() => {
+		window.removeEventListener('resize', handleResize);
+	});
 </script>
 
-<section
-  bind:this={section}
-  style="--columns: {columns};"
-  data-columns={columns}
->
-  {#each numbers as number}
-    <button onclick={setNext}>{number + 1}</button>
-  {/each}
+<section bind:this={section} style="--columns: {columns};" data-columns={columns}>
+	{#each numbers as number}
+		<button onclick={setNext}>{number + 1}</button>
+	{/each}
 </section>
 
 <style>
-  section {
-    display: grid;
-    gap: 0.5em;
-    width: min(90vw, 800px);
-    margin: 0 auto;
-    grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
-  }
+	section {
+		display: grid;
+		gap: 0.5em;
+		width: min(90vw, 800px);
+		margin: 0 auto;
+		grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+	}
 
-  [data-columns='2'] button {
-    font-size: clamp(1.5em, 20vw, 5.5em);
-  }
+	[data-columns='2'] button {
+		font-size: clamp(1.5em, 20vw, 5.5em);
+	}
 
-  [data-columns='3'] button {
-    font-size: clamp(1.5em, 13vw, 5.5em);
-  }
+	[data-columns='3'] button {
+		font-size: clamp(1.5em, 13vw, 5.5em);
+	}
 
-  [data-columns='4'] button {
-    font-size: clamp(1.5em, 10vw, 5.5em);
-  }
+	[data-columns='4'] button {
+		font-size: clamp(1.5em, 10vw, 5.5em);
+	}
 
-  button {
-    aspect-ratio: 1;
-    font-size: clamp(1.5em, 4vw, 4.5em);
-    border: none;
-    border-radius: 0.5em;
-    text-shadow: 0 0 3px black;
-    box-shadow: inset 0 0 1em rgba(0, 0, 0, 0.5);
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    color: white;
-    position: relative;
-    width: 100%;
-  }
+	button {
+		aspect-ratio: 1;
+		font-size: clamp(1.5em, 4vw, 4.5em);
+		border: none;
+		border-radius: 0.5em;
+		text-shadow: 0 0 3px black;
+		box-shadow: inset 0 0 1em rgba(0, 0, 0, 0.5);
+		background: rgba(255, 255, 255, 0.1);
+		backdrop-filter: blur(10px);
+		color: white;
+		position: relative;
+		width: 100%;
+		text-align: center;
+	}
 
-  button:before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.3),
-      rgba(255, 255, 255, 0)
-    );
-    border-radius: 0.5em;
-    pointer-events: none;
-  }
+	button:before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(145deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
+		border-radius: 0.5em;
+		pointer-events: none;
+	}
 
-  button:hover {
-    background: rgba(255, 255, 255, 0.2);
-  }
+	button:hover {
+		background: rgba(255, 255, 255, 0.2);
+	}
 
-  :global(button:disabled) {
-    opacity: 0.35;
-    color: #888;
+	:global(button:disabled) {
+		opacity: 0.35;
+		color: #888;
 
-    &.current {
-      color: black;
-    }
-  }
+		&.current {
+			color: black;
+		}
+	}
 
-  :global(button.current) {
-    box-shadow: 0 0 5px #888;
-    color: black;
-  }
+	:global(button.current) {
+		box-shadow: 0 0 5px #888;
+		color: black;
+	}
 </style>
